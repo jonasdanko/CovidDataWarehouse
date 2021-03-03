@@ -15,7 +15,7 @@ def sql(cursor, command):
 	conn.commit()
 
 
-conn = connect("jdank056", "brigad0On12")
+conn = connect("", "")
 cursor = conn.cursor()
 
 #file = "../Data/covid_data.csv"
