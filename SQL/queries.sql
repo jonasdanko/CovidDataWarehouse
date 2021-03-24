@@ -1,6 +1,6 @@
 #a. Drill down and roll up.
 
-#i For instance, explore the total number of positive cases in your data mart; drill down to a month (Sep 2020), and drill down to a specific day.
+#i. explore the total number of positive cases in your data mart; drill down to a month (Sep 2020), and drill down to a specific day.
 SELECT d.day, d.month, d.year, count(*) 
 FROM  fact_table as f, date_dimension as d, patient_dimension as p 
 WHERE  f.reported_date_key = d.date_surrogate_key AND
@@ -9,20 +9,19 @@ WHERE  f.reported_date_key = d.date_surrogate_key AND
 GROUP BY d.day,d.month,d.year
 ORDER BY d.day DESC;
 
-#iii For instance, consider all the unresolved cases in Toronto City, roll up to GTA, and roll up to all data in your data mart.
-SELECT l.phu_name, count(*) as cases
-From phu_location_dimension l, fact_table f
-WHERE f.location_key = l.location_surrogate_key AND l.phu_name = 'Ottawa Public Health'
-GROUP BY l.phu_name;
-
-
-#b. Slice
-
-#For instance, provide the number of cases in a specific PHU
+#ii. consider all the unresolved cases in Toronto City, roll up to GTA, and roll up to all data in your data mart.
 SELECT l.province, count(f.resolved)
 FROM phu_location_dimension l , fact_table f
 WHERE f.resolved = false AND f.location_key = l.location_surrogate_key AND l.city = 'Toronto'
 GROUP BY l.province
+
+#b. Slice
+
+#For instance, provide the number of cases in a specific PHU
+SELECT l.phu_name, count(*) as cases
+From phu_location_dimension l, fact_table f
+WHERE f.location_key = l.location_surrogate_key AND l.phu_name = 'Ottawa Public Health'
+GROUP BY l.phu_name;
 
 #Average mobility levels in Ottawa 
 SELECT AVG (retail_and_recreation), AVG(grocery_and_pharmacy), AVG (parks), AVG (transit_stations), AVG (workplaces), AVG(residential)
